@@ -39,7 +39,7 @@ html, body {
 
 #map_search input[type=text] {
   border: 1px solid #fff;
-  padding-left: 7px;
+  margin-left: 7px;
   height: 29px;
   width: 455px;
 }

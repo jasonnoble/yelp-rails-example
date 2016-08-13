@@ -48,6 +48,9 @@ end
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+gem 'dotenv-rails',
+  group: [:development, :test],
+  require: 'dotenv/rails-now'
 
 # Yelp gem!
 gem 'yelp'

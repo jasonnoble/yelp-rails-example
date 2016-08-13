@@ -16,8 +16,19 @@
 //= require_tree .
 
 var markersArray = [];
-var SF_LAT = 37.7435841;
-var SF_LNG = -122.4897851;
+
+var DENVER_LAT = 39.7392;
+var DENVER_LNG = -104.9903;
+
+var BOULDER_LAT = 40.0150;
+var BOULDER_LNG = -105.2705;
+
+var FT_COLLINS_LAT = 40.5853;
+var FT_COLLINS_LNG = -105.0844;
+
+var WESTMINSTER_LAT = 39.8367;
+var WESTMINSTER_LNG = -105.0372;
+
 var QUERY_DELAY = 400;
 var inactive = false;
 
@@ -32,7 +43,7 @@ $(document).ready(function() {
 var initialize = function() {
   // Define some options for the map
   var mapOptions = {
-    center: new google.maps.LatLng(SF_LAT, SF_LNG),
+    center: new google.maps.LatLng(DENVER_LAT, DENVER_LNG),
     zoom: 12,
 
     // hide controls
@@ -72,10 +83,32 @@ var bind_controls = function(map) {
     e.preventDefault();
     search(map);
   });
+  
+  var citySearch = $('#city_search')[0];
+  google.maps.event.addDomListener(citySearch, 'change', function(e) {
+    e.preventDefault();
+    switch (citySearch.selectedIndex) {
+      case 0:
+        console.log('DENVER!');
+        map.setCenter(new google.maps.LatLng(DENVER_LAT, DENVER_LNG));
+        break;
+      case 1:
+        console.log('BOULDER!');
+        map.setCenter(new google.maps.LatLng(BOULDER_LAT, BOULDER_LNG));
+        break;
+      case 2:
+        console.log('UP NORTH!');
+        map.setCenter(new google.maps.LatLng(FT_COLLINS_LAT, FT_COLLINS_LNG));
+        break;
+      case 3:
+        console.log('WESTIE!');
+        map.setCenter(new google.maps.LatLng(WESTMINSTER_LAT, WESTMINSTER_LNG));
+    }
+  });
 
   // push the search controls onto the map
   map.controls[google.maps.ControlPosition.TOP_LEFT].push(controlContainer);
-}
+};
 
 /**
  * Makes a post request to the server with the search term and
@@ -85,12 +118,13 @@ var bind_controls = function(map) {
  */
 var search = function(map) {
   var searchTerm = $('#map_search input[type=text]').val();
+  var city = $('#city_search').val();
 
   if (inactive === true) { return };
 
   // post to the search with the search term, take the response data
   // and process it
-  $.post('/search', { term: searchTerm }, function(data) {
+  $.post('/search', { city: city, term: searchTerm }, function(data) {
     inactive = true;
 
     // do some clean up

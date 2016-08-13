@@ -2,7 +2,13 @@
 
 #control_container
   #map_search
-    form
+    form.form-inline
+      select#city_search.form-control name='city'
+        option Denver
+        option Boulder
+        option Ft. Collins
+        option Westminster
+
       input type='text'
       a#map_search_submit href='#': span.glyphicon.glyphicon-search
 
